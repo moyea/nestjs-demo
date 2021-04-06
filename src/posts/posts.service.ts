@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PostNotFoundException } from './post-not-found.exception';
 import { Post } from './post.entity';
 import { CreatePostDto, UpdatePostDto } from './posts.interface';
 
@@ -17,7 +18,7 @@ export class PostsService {
   async getPost(id: number) {
     const post = await this.postRepository.findOne(id);
     if (post) return post;
-    throw new HttpException('data not found', HttpStatus.NOT_FOUND);
+    throw new PostNotFoundException(id);
   }
 
   async createPost(post: CreatePostDto) {
@@ -32,13 +33,13 @@ export class PostsService {
     if (updatedPost) {
       return updatedPost;
     }
-    throw new HttpException('data not found', HttpStatus.NOT_FOUND);
+    throw new PostNotFoundException(id);
   }
 
   async deletePost(id: number) {
     const resp = await this.postRepository.delete(id);
     if (!resp.affected) {
-      throw new HttpException('data not found', HttpStatus.NOT_FOUND);
+      throw new PostNotFoundException(id);
     }
   }
 }
