@@ -11,6 +11,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from './jwt/jwt.service';
+import { APP_FILTER } from '@nestjs/core';
+import { ExceptionsLoggerFilter } from './utils/exceptions-logger.filter';
 
 @Module({
   imports: [
@@ -28,6 +30,13 @@ import { JwtService } from './jwt/jwt.service';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ChatGateway, ChatService, AuthService, JwtService],
+  providers: [
+    { provide: APP_FILTER, useClass: ExceptionsLoggerFilter },
+    AppService,
+    ChatGateway,
+    ChatService,
+    AuthService,
+    JwtService,
+  ],
 })
 export class AppModule {}
