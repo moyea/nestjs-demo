@@ -11,8 +11,9 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from './jwt/jwt.service';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionsLoggerFilter } from './utils/exceptions-logger.filter';
+import { LoggingInterceptor } from './utils/logging.interceptor';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ExceptionsLoggerFilter } from './utils/exceptions-logger.filter';
   controllers: [AppController],
   providers: [
     { provide: APP_FILTER, useClass: ExceptionsLoggerFilter },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     AppService,
     ChatGateway,
     ChatService,
