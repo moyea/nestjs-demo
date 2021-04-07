@@ -1,3 +1,3 @@
 export enum SqliteErrorCode {
-  UniqueViolation = '2067',
+  UniqueViolation = 19,
 }

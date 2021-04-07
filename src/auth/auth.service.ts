@@ -21,10 +21,9 @@ export class AuthService {
         ...usr,
         password: hashedPwd,
       });
-      createdUser.password = undefined;
       return createdUser;
     } catch (err) {
-      if (err?.code === SqliteErrorCode.UniqueViolation) {
+      if (err?.errno === SqliteErrorCode.UniqueViolation) {
         throw new HttpException(
           'User with this email already exists',
           HttpStatus.BAD_REQUEST,
