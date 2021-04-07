@@ -4,9 +4,11 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreatePostDto, UpdatePostDto } from './posts.interface';
@@ -22,8 +24,8 @@ export class PostsController {
   }
 
   @Get(':id')
-  getPost(@Param('id') id: string) {
-    return this.postsService.getPost(+id);
+  getPost(@Param('id', ParseIntPipe) id: number) {
+    return this.postsService.getPost(id);
   }
 
   @Post()
@@ -34,13 +36,17 @@ export class PostsController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async replacePost(@Param('id') id: string, @Body() post: UpdatePostDto) {
-    return this.postsService.replacePost(Number(id), post);
+  async replacePost(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() post: UpdatePostDto,
+  ) {
+    return this.postsService.replacePost(id, post);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async deletePost(@Param('id') id: string) {
-    return this.postsService.deletePost(Number(id));
+  @UsePipes(ParseIntPipe)
+  async deletePost(@Param('id') id: number) {
+    return this.postsService.deletePost(id);
   }
 }
