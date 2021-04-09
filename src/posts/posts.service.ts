@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { PostNotFoundException } from './post-not-found.exception';
 import { Post } from './post.entity';
 import { CreatePostDto, UpdatePostDto } from './posts.interface';
@@ -11,8 +11,16 @@ export class PostsService {
     @InjectRepository(Post) private postRepository: Repository<Post>,
   ) {}
 
-  getPosts() {
-    return this.postRepository.find();
+  async getPosts(offset?: number, limit?: number) {
+    const [items, count] = await this.postRepository.findAndCount({
+      order: { id: 'ASC' }, // 不设置order的话，typeorm会报错
+      skip: offset,
+      take: limit,
+    });
+    return {
+      items,
+      count,
+    };
   }
 
   async getPost(id: number) {
@@ -41,5 +49,18 @@ export class PostsService {
     if (!resp.affected) {
       throw new PostNotFoundException(id);
     }
+  }
+
+  async searchForPosts(search: string, offset: number, limit: number) {
+    const [items, count] = await this.postRepository.findAndCount({
+      where: { title: Like(`%${search}%`) },
+      order: { id: 'ASC' },
+      skip: offset,
+      take: limit,
+    });
+    return {
+      items,
+      count,
+    };
   }
 }
