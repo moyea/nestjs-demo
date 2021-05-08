@@ -14,6 +14,8 @@ import { JwtService } from './jwt/jwt.service';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionsLoggerFilter } from './utils/exceptions-logger.filter';
 import { LoggingInterceptor } from './utils/logging.interceptor';
+import { MongooseModule } from '@nestjs/mongoose';
+import { CatsModule } from './cats/cats.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { LoggingInterceptor } from './utils/logging.interceptor';
     DatabaseModule,
     UserModule,
     AuthModule,
+    MongooseModule.forRoot('mongodb://localhost/nest'),
+    CatsModule,
   ],
   controllers: [AppController],
   providers: [
