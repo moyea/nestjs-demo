@@ -4881,6 +4881,11 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://npm-registry.llsengineer.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
+mongoose-long@^0.3.2:
+  version "0.3.2"
+  resolved "https://npm-registry.llsengineer.com/mongoose-long/-/mongoose-long-0.3.2.tgz#9e38773fc93c9c5ecfea200635878593ea577fb0"
+  integrity sha1-njh3P8k8nF7P6iAGNYeFk+pXf7A=
+
 mongoose@^5.12.7:
   version "5.12.7"
   resolved "https://npm-registry.llsengineer.com/mongoose/-/mongoose-5.12.7.tgz#9cbf42246c53b7ab79342c04ef72938d4047b071"

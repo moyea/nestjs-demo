@@ -12,6 +12,8 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const handler = context.getHandler();
     const className = context.getClass().name;
+    // console.log(Reflect.getMetadataKeys(context.getClass()));
+    // console.log(Reflect.getMetadata('path', handler));
     console.log(`Before call ... ${className}.${handler.name}`);
     const now = Date.now();
     return next
